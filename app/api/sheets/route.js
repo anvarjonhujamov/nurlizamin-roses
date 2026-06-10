@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { fetchProductsFromSheet, updateQuantitiesInSheet } from '@/lib/sheets';
+import { loadProductsFromCache } from '@/lib/productCache';
 
-// googleapis requires Node.js runtime (not Edge)
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
@@ -11,12 +11,23 @@ export async function GET() {
     return NextResponse.json(products || []);
   } catch (err) {
     console.error('GET /api/sheets error:', err);
+
+    try {
+      const cached = loadProductsFromCache();
+      if (cached?.length > 0) {
+        console.warn(`Serving ${cached.length} products from cache after Sheets error`);
+        return NextResponse.json(cached);
+      }
+    } catch (cacheErr) {
+      console.error('Products cache read failed:', cacheErr);
+    }
+
     return NextResponse.json(
       {
         error: 'Failed to fetch data',
         details: err.message || 'Unknown error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -29,7 +40,7 @@ export async function POST(request) {
     if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
         { error: 'Invalid request. Expected items array.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -46,7 +57,7 @@ export async function POST(request) {
         error: 'Failed to update quantities',
         details: err.message || 'Unknown error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
