@@ -36,6 +36,7 @@ export function Basket({ rosesById }) {
   return (
     <section className="flex h-full flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
       <header className="flex items-center justify-between gap-2">
+        
         <div>
           <h2 className="text-base font-semibold text-slate-900">Корзина</h2>
           <p className="text-xs text-slate-500">
