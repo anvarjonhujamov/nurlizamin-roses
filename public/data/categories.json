@@ -1,0 +1,32 @@
+[
+  {
+    "id": "spray",
+    "label": "Spray Roses",
+    "description": "Multi-headed roses ideal for bouquets and arrangements."
+  },
+  {
+    "id": "hybrid-tea",
+    "label": "Hybrid Tea",
+    "description": "Classic long-stemmed roses with large, high-centered blooms."
+  },
+  {
+    "id": "floribunda",
+    "label": "Floribunda",
+    "description": "Clusters of blooms with strong garden performance."
+  },
+  {
+    "id": "garden",
+    "label": "Garden Roses",
+    "description": "Lush, nostalgic forms with strong fragrance and character."
+  },
+  {
+    "id": "english",
+    "label": "English Roses",
+    "description": "Romantic, full-petalled blooms with a classic English style."
+  },
+  {
+    "id": "climbing",
+    "label": "Climbing Roses",
+    "description": "Vigorous climbers suited for arches, walls, and trellises."
+  }
+]
