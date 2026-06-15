@@ -61,8 +61,16 @@ function addEnv(name, value, { sensitive = false } = {}) {
 const content = readFileSync(envPath, 'utf8');
 const vars = parseDotEnv(content);
 
+if (vars.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN && !vars.TELEGRAM_BOT_TOKEN) {
+  vars.TELEGRAM_BOT_TOKEN = vars.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+}
+if (vars.NEXT_PUBLIC_TELEGRAM_CHAT_ID && !vars.TELEGRAM_CHAT_ID) {
+  vars.TELEGRAM_CHAT_ID = vars.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
+}
+
 const sensitiveKeys = new Set([
   'GOOGLE_PRIVATE_KEY',
+  'TELEGRAM_BOT_TOKEN',
   'NEXT_PUBLIC_TELEGRAM_BOT_TOKEN',
 ]);
 
