@@ -1,13 +1,38 @@
 import categories from '../data/categories.js';
 
+/**
+ * Parse category cell value like "5,7" or "6, 5" into numeric IDs.
+ */
+export function parseCategoryIds(categoryValue) {
+  if (categoryValue == null || categoryValue === '') return [];
+
+  return String(categoryValue)
+    .split(/[,;]/)
+    .map((part) => parseInt(part.trim(), 10))
+    .filter((id) => Number.isInteger(id) && id > 0);
+}
+
+/**
+ * Normalize sheet category value to comma-separated IDs, e.g. "5,7".
+ */
+export function normalizeCategoryValue(categoryValue) {
+  const ids = parseCategoryIds(categoryValue);
+  return ids.length > 0 ? ids.join(',') : '';
+}
+
+export function roseMatchesCategory(categoryValue, categoryFilter) {
+  if (categoryFilter == null || categoryFilter === '' || categoryFilter === 'all') {
+    return true;
+  }
+
+  const filterId = parseInt(String(categoryFilter), 10);
+  if (!Number.isInteger(filterId) || filterId <= 0) return true;
+
+  return parseCategoryIds(categoryValue).includes(filterId);
+}
+
 export function getCategoryNames(categoryValue) {
-  if (!categoryValue) return null;
-
-  const categoryIds = String(categoryValue)
-    .split(',')
-    .map((id) => parseInt(id.trim(), 10))
-    .filter((id) => !Number.isNaN(id));
-
+  const categoryIds = parseCategoryIds(categoryValue);
   if (categoryIds.length === 0) return null;
 
   const names = categoryIds

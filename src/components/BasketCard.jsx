@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { IoTrashOutline } from 'react-icons/io5';
 import toast from 'react-hot-toast';
 import { removeItem, setQuantity } from '../store/basketSlice.js';
-import categories from '../data/categories.js';
 import { getProductImageUrl } from '../lib/constants.js';
+import { getCategoryNames } from '../utils/roseInfo.js';
 
 // Single basket row, inspired by the example you provided.
 // Keeps its own input state but synchronizes to Redux on every valid change.
@@ -56,27 +56,6 @@ export function BasketCard({ item }) {
 
   const displayMax = maxQuantity;
   const primaryImage = getProductImageUrl(rose?.images?.[0]);
-
-  // Get category name(s) from category ID(s)
-  const getCategoryNames = (categoryValue) => {
-    if (!categoryValue) return null;
-    
-    // Handle comma-separated categories (e.g., "6,9")
-    const categoryIds = String(categoryValue).split(',').map(id => {
-      const numId = parseInt(id.trim(), 10);
-      return isNaN(numId) ? null : numId;
-    }).filter(Boolean);
-
-    if (categoryIds.length === 0) return null;
-
-    // Find matching category names
-    const categoryNames = categoryIds
-      .map(id => categories.find(c => c.id === id)?.nameRu)
-      .filter(Boolean);
-
-    return categoryNames.length > 0 ? categoryNames.join(', ') : null;
-  };
-
   const categoryDisplay = rose?.category ? getCategoryNames(rose.category) : null;
 
   return (

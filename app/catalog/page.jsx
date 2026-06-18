@@ -34,9 +34,7 @@ function CatalogContent() {
 
   useEffect(() => {
     const cat = searchParams.get('category');
-    if (cat) {
-      setFilters((prev) => ({ ...prev, category: cat }));
-    }
+    setFilters((prev) => ({ ...prev, category: cat || 'all' }));
   }, [searchParams]);
 
   const debouncedSearch = useDebounce(filters.search, 300);
@@ -53,6 +51,15 @@ function CatalogContent() {
 
   const setCategory = (category) => {
     setFilters((prev) => ({ ...prev, category }));
+    if (category === 'all') {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('category');
+      window.history.replaceState({}, '', url);
+    } else {
+      const url = new URL(window.location.href);
+      url.searchParams.set('category', category);
+      window.history.replaceState({}, '', url);
+    }
     scrollToProducts();
   };
 
