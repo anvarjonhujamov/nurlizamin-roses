@@ -7,8 +7,6 @@
   },
   "scripts": {
     "dev": "next dev",
-    "sync-catalog": "node scripts/sync-catalog.mjs",
-    "prebuild": "node scripts/sync-catalog.mjs || exit 0",
     "build": "next build",
     "start": "next start",
     "lint": "eslint ."
